@@ -1,49 +1,49 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import EstimativaItem from './EstimativaItem';
+import PropTypes from 'prop-types';
+import { getEstimativas } from '../../actions/estimativaActions';
 
 
-const Estimativa = () => {
 
-    const [estimativas, setEstimativas] = useState([]);
-    const [loading, setLoading] = useState(false);
-
+const Estimativa = ({ estimativa: { estimativa, loading }, getEstimativas }) => {
 
     useEffect(()=>{
         getEstimativas();
         // eslint-disable-next-line
     }, []);
 
-
-    const getEstimativas = async () => {
-        setLoading(true);
-        const res = await fetch('/estimativa_taxa_selic');
-        const data = await res.json();
-
-        setEstimativas(data);
-        setLoading(false);
-    }
-
-    if(loading){
+   if(loading || estimativa === null){
         return <h4>Carregando Estimativas ....</h4>
     }
-
-
 
     return (
         <ul className="collection with-header">
         <li className="collection-header">
             <h4 className='center'>Estimativas da Taxa Selic</h4>
         </li>
-        {!loading && estimativas.length ===0 ? (
+        {!loading && estimativa.length === 0 ? (
             <p className='center'>Nenhuma Estimativa para mostrar</p>
         ) : (
-            estimativas.map(estimativa => <EstimativaItem estimativa={estimativa}/>)
+            estimativa.map(estimativa => <EstimativaItem estimativa={estimativa}/>)
 
         )}
             
         </ul>
-    )
-}
+    );
+};
 
-export default Estimativa
+Estimativa.propTypes = {
+    estimativa: PropTypes.object.isRequired,
+    getEstimativas: PropTypes.func.isRequired
+  };
+  
+  const mapStateToProps = state => ({
+    estimativa: state.estimativa
+  });
+  
+  export default connect(
+    mapStateToProps,
+    { getEstimativas }
+  )(Estimativa);
+

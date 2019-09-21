@@ -1,27 +1,34 @@
-import React, { Fragment, useEffect } from 'react';
-
-import 'materialize-css/dist/css/materialize.min.css';
-import M from 'materialize-css/dist/js/materialize.min.js';
+import React, { Fragment, useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
 
-import SearchBar from './components/layout/SearchBar';
+import "materialize-css/dist/css/materialize.min.css";
+import M from "materialize-css/dist/js/materialize.min.js";
+import "./App.css";
+import SelicAno from "./pages/SelicAno";
+import Navbar from "./components/layout/Navbar";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 
-import Estimativa from './components/estimativas/Estimativa';
+import { Provider } from 'react-redux';
+import store from './store';
 
 const App = () => {
 
-  useEffect(() => {
-    M.AutoInit();
-  });
-
   return (
-    <Fragment>
-      <SearchBar></SearchBar>
-      <div className='container'>
-         <Estimativa />
+    <Router>
+      <div className="App">
+        <Navbar title="Anbima" />
+        <div className="container">
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/selic_ano" component={SelicAno} />
+            <Route component={NotFound} />
+          </Switch>
+        </div>
       </div>
-    </Fragment>
+    </Router>
   );
-}
+};
 
 export default App;
