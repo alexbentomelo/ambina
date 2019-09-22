@@ -1,5 +1,6 @@
 import {
     GET_ESTIMATIVAS,
+    GET_ESTIMATIVASANO,
     SET_LOADING,
     ESTIMATIVAS_ERROR,
     SEARCH_ESTIMATIVAS,
@@ -9,6 +10,7 @@ import {
   
   const initialState = {
     estimativa: null,
+    estimativaano:null,
     current: null,
     loading: false,
     error: null
@@ -20,6 +22,12 @@ import {
         return {
           ...state,
           estimativa: action.payload,
+          loading: false
+        };
+        case GET_ESTIMATIVASANO:
+        return {
+          ...state,
+          estimativaano: action.payload,
           loading: false
         };
       case SEARCH_ESTIMATIVAS:
